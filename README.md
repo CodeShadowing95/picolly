@@ -1,7 +1,7 @@
 <h1 align="center">Hi there 👋, I'm Frank Patrick NAMEGNI</h1>
 <h3 align="center">A passionate Full Stack Developer Junior</h3>
 
-- 🔭 I’m currently working on **Picolly**
+- 🔭 I’m currently working on **Picolly, Social Media App to post interesting events happened in your life**
 
 - 🌱 I’m currently learning **MERN Stack**
 
