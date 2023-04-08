@@ -34,7 +34,7 @@ const Post = ({ post, setCurrentId }) => {
       </div>
       <Typography className={classes.title} variant="h5" gutterBottom>{post.title}</Typography>
       <CardContent>
-        <Typography variant="body1" gutterBottom>{post.message}</Typography>
+        <Typography variant="body1" color="textSecondary" gutterBottom>{post.message}</Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
         <Button
@@ -42,8 +42,8 @@ const Post = ({ post, setCurrentId }) => {
           color="primary"
           onClick={() => {dispatch(likePost(post._id))}}
         >
-          <ThumbUpAltIcon fontSize="small" /> &nbsp;
-          {/* Like&nbsp; */}
+          <ThumbUpAltIcon fontSize="small" />
+          &nbsp; Like &nbsp;
           {post.likeCount}
         </Button>
         <Button 
