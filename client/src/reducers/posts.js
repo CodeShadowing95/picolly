@@ -5,6 +5,7 @@ export const reducer =  (posts = [], action) => {
     case 'CREATE':
       return [...posts, action.payload];
     case 'UPDATE':
+    case 'LIKE':
       // action.payload is here the newly updated post or memory
       return posts.map((post) => post._id === action.payload._id ? action.payload : post);
     case 'DELETE':
