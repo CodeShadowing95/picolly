@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import PostMessage from "../models/postMessage.js";
 
 export const getPosts = async (req, res) => {
@@ -29,7 +30,7 @@ export const createPost = async (req, res) => {
 export const updatePost = async (req, res) => {
   const { id: _id } = req.params;
   const post = req.body;
-  
+
   console.log(post);
 
   if(!mongoose.Types.ObjectId.isValid(_id)) {
@@ -37,7 +38,7 @@ export const updatePost = async (req, res) => {
   }
 
   // Create the updated version of the post
-  const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, { new: true });
+  const updatedPost = await PostMessage.findByIdAndUpdate(_id, { ...post, _id }, { new: true });
 
   res.json(updatedPost);
 }
