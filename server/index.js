@@ -17,7 +17,12 @@ app.use(cors());
 app.use('/posts', postRoutes);
 
 app.get('/', (req, res) => {
-  res.send('Hello to PICOLLY API');
+  try {
+    res.send('Hello to PICOLLY API');
+  } catch (error) {
+    alert(error.message);
+  }
+  
 });
 
 const PORT = process.env.PORT || 5000;
