@@ -1,14 +1,15 @@
+import { FETCH_ALL, CREATE, UPDATE, DELETE } from '../constants/actionTypes';
+
 export const reducer =  (posts = [], action) => {
   switch (action.type) {
-    case 'FETCH_ALL':
+    case FETCH_ALL:
       return action.payload;
-    case 'CREATE':
+    case CREATE:
       return [...posts, action.payload];
-    case 'UPDATE':
-    case 'LIKE':
+    case UPDATE:
       // action.payload is here the newly updated post or memory
       return posts.map((post) => post._id === action.payload._id ? action.payload : post);
-    case 'DELETE':
+    case DELETE:
       return posts.filter((post) => post._id !== action.payload);
     default:
       return posts;
