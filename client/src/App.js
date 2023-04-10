@@ -1,40 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { ThemeProvider, Container, Grow, Grid } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { ThemeProvider, Container } from '@material-ui/core';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import { getPosts } from './actions/posts';
-import Posts from './components/Posts/Posts';
-import Form from './components/Form/Form';
 import Navbar from './components/Navbar/Navbar';
+import Home from './components/Home/Home';
+import Auth2 from './components/Auth/Auth2';
+
+
 // To define a new font family
 import themeFont from './theme/themeFont';
-
 const App = () => {
-  const [currentId, setCurrentId] = useState(null);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
 
   return (
     // Define "Montserrat" font as font family' gloabal page
     <ThemeProvider theme={themeFont}>
       <Container maxWidth="lg">
         <Navbar />
-
-        <Grow in>
-          <Container>
-            <Grid container justifyContent="space-between" alignItems="stretch" spacing={3}>
-              <Grid item xs={12} sm={7}>
-                <Posts setCurrentId={setCurrentId} />
-              </Grid>
-              <Grid item xs={12} sm={4}>
-                <Form currentId={currentId} setCurrentId={setCurrentId} />
-              </Grid>
-            </Grid>
-          </Container>
-        </Grow>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/auth" element={<Auth2 />} />
+          </Routes>
+        </BrowserRouter>
       </Container>
     </ThemeProvider>
   );
