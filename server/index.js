@@ -16,6 +16,12 @@ app.use(cors());
 // Every routes inside the postRoutes will gonna start with 'posts'
 app.use('/posts', postRoutes);
 
+app.get('/', (req, res) => {
+  res.send('Hello to PICOLLY API');
+});
+
+const PORT = process.env.PORT || 5000;
+
 // To connect to the database
 mongoose.connect(process.env.CONNECTION_URL)
   .then(() => app.listen(process.env.PORT, () => console.log(`Server running on port: ${process.env.PORT}`)))
