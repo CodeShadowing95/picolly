@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { AppBar, Typography, Link, Toolbar, Avatar, Button } from '@material-ui/core';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { AppBar, Typography, Toolbar, Avatar, Button } from '@material-ui/core';
 
 // The image
 import useStyles from './styles';
@@ -8,7 +9,7 @@ import memories from '../../images/memories.png';
 const Navbar = () => {
   const classes = useStyles();
 
-  const [user, setUser] = useState(null);
+  const user = null;
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">

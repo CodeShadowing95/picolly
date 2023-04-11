@@ -7,23 +7,22 @@ import Home from './components/Home/Home';
 import Auth2 from './components/Auth/Auth2';
 
 
-// To define a new font family
+// To define a new font family (Montserrat, sans-serif)
 import themeFont from './theme/themeFont';
 const App = () => {
 
   return (
-    // Define "Montserrat" font as font family' gloabal page
-    <ThemeProvider theme={themeFont}>
-      <Container maxWidth="lg">
-        <Navbar />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/auth" element={<Auth2 />} />
-          </Routes>
-        </BrowserRouter>
-      </Container>
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={themeFont}>
+        <Container maxWidth="lg">
+          <Navbar />
+            <Routes>
+              <Route path="/" exact element={<Home />} />
+              <Route path="/auth" exact element={<Auth2 />} />
+            </Routes>
+        </Container>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 
