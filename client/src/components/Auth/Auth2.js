@@ -9,8 +9,7 @@ import { Link } from 'react-router-dom';
 const Auth2 = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
-
-  const isSignUp = false;
+  const [isSignUp, setIsSignUp] = useState(false);
 
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
 
@@ -20,6 +19,12 @@ const Auth2 = () => {
 
   const handleChange = () => {
 
+  }
+
+  const switchMode = () => {
+    // So if prevIsSignUp was true, the function returns false, and vice versa.
+    setIsSignUp((prevIsSignUp) => !prevIsSignUp);
+    handleShowPassword(false);
   }
 
   return (
@@ -41,12 +46,27 @@ const Auth2 = () => {
             <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? "text" : "password"} handleShowPassword={handleShowPassword} />
             { isSignUp && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" /> }
           </Grid>
-          <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
-            { isSignUp ? 'Sign Up' : 'Sign In' }
-          </Button>
-          <Button component={Link} to="/" fullWidth variant="contained" color="default" className={classes.submit}>
-            Cancel
-          </Button>
+
+          <Grid container spacing={2} justifyContent="center">
+            <Grid item>
+              <Button component={Link} to="/" fullWidth variant="contained" color="default" className={classes.submit}>
+                {`< Back`}
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
+                { isSignUp ? 'Sign Up' : 'Sign In' }
+              </Button>
+            </Grid>
+          </Grid>
+
+          <Grid container justifyContent="center">
+            <Grid item>
+              <Button onClick={switchMode}>
+                { isSignUp ? 'Already have an account? Sign In' :  'Don\'t have an account yet? Sign Up' }
+              </Button>
+            </Grid>
+          </Grid>
         </form>
       </Paper>
     </Container>
