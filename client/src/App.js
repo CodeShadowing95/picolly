@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navbar/Navbar';
 import Home from './components/Home/Home';
-import Auth2 from './components/Auth/Auth2';
+import Login from './components/Auth/Login';
 
 
 // To define a new font family (Montserrat, sans-serif)
@@ -18,7 +18,7 @@ const App = () => {
           <Navbar />
             <Routes>
               <Route path="/" exact element={<Home />} />
-              <Route path="/auth" exact element={<Auth2 />} />
+              <Route path="/auth" exact element={<Login />} />
             </Routes>
         </Container>
       </ThemeProvider>
