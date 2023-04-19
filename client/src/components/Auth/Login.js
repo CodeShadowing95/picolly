@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 // import { Link } from 'react-router-dom';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { GoogleLogin } from 'react-google-login';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+// React OAuth2 | Google
+import { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 import useStyles from './styles';
 import Input from './Input';
@@ -12,6 +17,8 @@ const Login = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
 
@@ -28,14 +35,31 @@ const Login = () => {
     setIsSignUp((prevIsSignUp) => !prevIsSignUp);
     handleShowPassword(false);
   };
+  
 
-  const googleSuccess = async (res) => {
-    console.log(res);
-  };
+  const googlelogin = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      axios.get(`https://www.googleapis.com/oauth2/v1/userinfo? 
+      access_token=${codeResponse.access_token}`,
+      {
+        headers: {
+          Authorization: `Bearer ${codeResponse.access_token}`,
+          Accept: "application/json",
+        },
+      }).then((res) => {
+        const result = res?.data;
+        const token = codeResponse.access_token;
+        try {
+          dispatch({ type: "AUTH", data: { result, token } })
 
-  const googleFailure = (error) => {
-    console.log('Login failed', error);
-  };
+          navigate("/");
+        } catch (error) {
+          
+        }
+      }).catch((err) => console.log(err))
+    },
+    onError: res => console.error('Failed to login', res),
+  });
 
   return (
     <Container component="main" maxWidth="xs">
@@ -62,42 +86,23 @@ const Login = () => {
           <Button type="submit" fullWidth size="large" variant="contained" color="primary" className={classes.submit}>
             { isSignUp ? 'Sign Up' : 'Sign In' }
           </Button>
+          
 
-          {/* Buttons Sign In and Cancel */}
-          {/* <Grid container spacing={2} justifyContent="center">
-            <Grid item>
-              <Button component={Link} to="/" fullWidth size="large" variant="contained" color="default" className={classes.submit}>
-                {`< Back`}
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button type="submit" fullWidth size="large" variant="contained" color="primary" className={classes.submit}>
-                { isSignUp ? 'Sign Up' : 'Sign In' }
-              </Button>
-            </Grid>
-          </Grid> */}
-
-          {/* Google Login */}
-          <GoogleLogin
-            clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-            render={(renderProps) => (
-              <Button
-                className={classes.googleButton}
-                color="secondary"
-                fullWidth
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-                startIcon={<Icon />}
-                variant="contained"
-              >
-                Connect with Google
-              </Button>
-            )}
-            buttonText='Sign in with Google'
-            onSuccess={googleSuccess}
-            onFailure={googleFailure}
-            cookiePolicy={'single_host_origin'}
-          />
+          {/* This code is creating a button with the label "Connect with Google" and styling it with
+          the class `googleButton` from the `useStyles` hook. It has a secondary color and is set to
+          be full width. When clicked, it will execute the `googlelogin` function. It also has an
+          icon displayed before the label, which is imported as `<Icon />`. This button is used for
+          Google OAuth2 login. */}
+          <Button
+            className={classes.googleButton}
+            color="secondary"
+            fullWidth
+            onClick={() => googlelogin()}
+            startIcon={<Icon />}
+            variant="contained"
+          >
+            Connect with Google
+          </Button>
 
           <Grid container justifyContent="center">
             <Grid item>

@@ -6,7 +6,6 @@ import Navbar from './components/Navbar/Navbar';
 import Home from './components/Home/Home';
 import Login from './components/Auth/Login';
 
-
 // To define a new font family (Montserrat, sans-serif)
 import themeFont from './theme/themeFont';
 const App = () => {
