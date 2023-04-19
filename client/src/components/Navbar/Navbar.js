@@ -48,8 +48,7 @@ const Navbar = () => {
   dependency to the `useEffect` hook, which means that the code inside the hook will be executed
   whenever the URL location changes. */
   useEffect(() => {
-    const token = user?.token;
-
+    // const token = user?.token;
     // Check for JWT(JSON Web Token)
     setUser(JSON.parse(localStorage.getItem('profile')));
   }, [location]);
