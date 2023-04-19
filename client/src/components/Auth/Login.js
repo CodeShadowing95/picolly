@@ -4,7 +4,6 @@ import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
 // React OAuth2 | Google
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
@@ -12,26 +11,55 @@ import axios from 'axios';
 import useStyles from './styles';
 import Input from './Input';
 import Icon from './icon';
+import { signin, signup } from '../../actions/auth';
+
+
+const initialState = { firstname: '', lastname: '', email: '', password: '', confirmPassword: '' }
 
 const Login = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
+  const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    /* `e.preventDefault()` is a method that prevents the default action of an event from occurring. In
+    this case, it is preventing the default form submission behavior, which would cause the page to
+    refresh. Instead, the function `handleSubmit` is called, which handles the form submission in a
+    custom way. */
+    e.preventDefault();
 
+    // console.log(formData);
+    if(isSignUp) {
+      dispatch(signup(formData, navigate));
+    } else {
+      dispatch(signin(formData, navigate));
+    }
   };
 
-  const handleChange = () => {
-
+  const handleChange = (e) => {
+    /* `setFormData({ ...formData, [e.target.name]: e.target.value });` is updating the `formData`
+    state object with a new value for the property that matches the `name` attribute of the input
+    element that triggered the `handleChange` function. The spread operator (`...formData`) is used
+    to copy all the existing properties of the `formData` object, and then the new value is assigned
+    to the property that matches the `name` attribute of the input element using computed property
+    names (`[e.target.name]`). This allows the `handleChange` function to update the state object
+    dynamically based on the input element that triggered the function. */
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const switchMode = () => {
     // So if prevIsSignUp was true, the function returns false, and vice versa.
+    /* `setIsSignUp((prevIsSignUp) => !prevIsSignUp);` is toggling the value of the `isSignUp` state
+    variable between `true` and `false`. It does this by using the `prevIsSignUp` parameter, which
+    represents the current value of `isSignUp`, and passing it to an arrow function that returns the
+    opposite value using the logical NOT operator (`!`). This updated value is then passed to
+    `setIsSignUp`, which updates the state variable with the new value. This function is used to
+    switch between the "Sign In" and "Sign Up" modes of the form. */
     setIsSignUp((prevIsSignUp) => !prevIsSignUp);
     handleShowPassword(false);
   };
