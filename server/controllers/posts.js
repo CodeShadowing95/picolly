@@ -58,12 +58,39 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
   const { id } = req.params;
 
+  /* This line of code is checking if the `userId` property is present in the `req` object. If it is
+  not present, it means that the user is not logged in, so the function returns a JSON response with
+  a message asking the user to log in first. */
+  if(!req.userId) return res.json({ message: 'You must login first.' });
+
   if(!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).send('Sorry, no post with that ID was found');
   }
 
   const post = await PostMessage.findById(id);
-  const updatedPost = await PostMessage.findByIdAndUpdate(id, { likeCount: post.likeCount + 1 }, { new: true });
+
+  /* `This line is finding the index of
+  the user's ID in the `likes` array of a post. It uses the `findIndex()` method to iterate through
+  the `likes` array and return the index of the first element that satisfies the provided testing
+  function, which in this case is checking if the ID is equal to the user's ID converted to a
+  string. The resulting index is stored in the `index` constant. */
+  const index = post.likes.findIndex((id) => id === String(req.userId));
+
+  if(index === -1) {
+    /* `post.likes.push(req.userId);` is adding the ID of the user who liked the post to the `likes`
+    array of that post. It is using the `push()` method to add the `req.userId` to the end of the
+    `likes` array. */
+    post.likes.push(req.userId);
+  } else {
+    /* `post.likes = post.likes.filter((id) => id !== String(req.userId));` is removing the ID of the
+    user who unliked the post from the `likes` array of that post. It is using the `filter()` method
+    to create a new array that includes all elements of the `likes` array except for the one that
+    matches the user's ID converted to a string. The resulting array is then assigned back to the
+    `likes` property of the `post` object. */
+    post.likes = post.likes.filter((id) => id !== String(req.userId));
+  }
+
+  const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
 
   res.json(updatedPost);
 }
