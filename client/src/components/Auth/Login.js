@@ -35,6 +35,11 @@ const Login = () => {
 
     // console.log(formData);
     if(isSignUp) {
+      /* `dispatch(signup(formData, navigate));` is dispatching an action to the Redux store to sign up
+      a user with the form data provided in the `formData` state object. The `signup` action creator
+      takes two arguments: the `formData` object and the `navigate` function from the `useNavigate`
+      hook. The `navigate` function is used to redirect the user to a different page after the sign
+      up process is complete. */
       dispatch(signup(formData, navigate));
     } else {
       dispatch(signin(formData, navigate));
@@ -61,7 +66,7 @@ const Login = () => {
     `setIsSignUp`, which updates the state variable with the new value. This function is used to
     switch between the "Sign In" and "Sign Up" modes of the form. */
     setIsSignUp((prevIsSignUp) => !prevIsSignUp);
-    handleShowPassword(false);
+    setShowPassword(false);
   };
   
 

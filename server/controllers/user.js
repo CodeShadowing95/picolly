@@ -48,7 +48,7 @@ export const signin = async (req, res) => {
  * there is an error.
  */
 export const signup = async (req, res) => {
-  const { firstName, lastName, email, password, confirmPassword } = req.body;
+  const { firstname, lastname, email, password, confirmPassword } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -59,7 +59,7 @@ export const signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const result = await User.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
+    const result = await User.create({ email, password: hashedPassword, name: `${firstname} ${lastname}` });
 
     const token = jwt.sign({ email: result.email, id: result.id }, 'test', { expiresIn: "1h"});
 
