@@ -33,7 +33,7 @@ const Navbar = () => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
 
   // console.log(user);
-  const logout = () => {
+  const logout = async () => {
     dispatch({ type: 'LOGOUT' });
 
     navigate("/");

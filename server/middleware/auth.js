@@ -1,4 +1,4 @@
-import jwt, { decode } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 
 const auth = async (req, res, next) => {
   try {
@@ -22,6 +22,7 @@ const auth = async (req, res, next) => {
       return the decoded payload data, which is then assigned to the `decodedData` variable. If the
       token is invalid or has expired, it will throw an error. */
       decodedData = jwt.verify(token, 'test');
+      console.log(decodedData);
 
       /* `req.userId = decodedData?.id;` is assigning the `id` property of the `decodedData` object to
       the `userId` property of the `req` (request) object. The `?.` is the optional chaining
@@ -40,8 +41,15 @@ const auth = async (req, res, next) => {
 
       req.userId = decodedData?.sub;
     }
+
+    /* `next()` is a function that is called to pass control to the next middleware function in the
+    stack. In this case, it is used to move on to the next function after the `auth` middleware
+    function has completed its tasks. This is important because middleware functions are executed in
+    a sequence, and `next()` ensures that the next function in the sequence is executed. If `next()`
+    is not called, the request will be left hanging and the response will not be sent. */
+    next();
   } catch (error) {
-    
+    console.log(error);
   }
 }
 
